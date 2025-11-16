@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Document Scanner specifici
+input/
+output/
+processed/
+scanned/
+test_input/
+test_output/
+test_output_batch/
+output_example*/
+
+# Immagini e PDF (non committare i file processati)
+*.jpg
+*.jpeg
+*.png
+*.pdf
+*.bmp
+*.tiff
+
+# Eccezioni: mantieni file di esempio se necessari
+!docs/examples/*.jpg
+!docs/examples/*.png
+
+# Log files
+*.log
+
+# OS
+Thumbs.db
+.DS_Store

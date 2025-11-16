@@ -1,0 +1,129 @@
+{
+  "profiles": {
+    "default": {
+      "description": "Configurazione standard per documenti generici",
+      "output_dir": "processed",
+      "grayscale": false,
+      "enhance": true,
+      "dpi": 300,
+      "quality": 95,
+      "pdf": {
+        "single_pdf": true,
+        "pdf_name": "scanned_document.pdf"
+      }
+    },
+    "high_quality": {
+      "description": "Massima qualità per archivio o stampa",
+      "output_dir": "processed_hq",
+      "grayscale": false,
+      "enhance": true,
+      "dpi": 600,
+      "quality": 100,
+      "pdf": {
+        "single_pdf": true,
+        "pdf_name": "archivio_alta_qualita.pdf"
+      }
+    },
+    "bw_scanner": {
+      "description": "Modalità scanner B&N per documenti di testo",
+      "output_dir": "processed_bw",
+      "grayscale": true,
+      "enhance": true,
+      "dpi": 300,
+      "quality": 95,
+      "pdf": {
+        "single_pdf": true,
+        "pdf_name": "documenti_bw.pdf"
+      }
+    },
+    "fast_draft": {
+      "description": "Processing veloce per bozze",
+      "output_dir": "processed_draft",
+      "grayscale": true,
+      "enhance": false,
+      "dpi": 150,
+      "quality": 75,
+      "pdf": {
+        "single_pdf": true,
+        "pdf_name": "bozze.pdf"
+      }
+    },
+    "color_photos": {
+      "description": "Documenti a colori (cataloghi, brochure)",
+      "output_dir": "processed_color",
+      "grayscale": false,
+      "enhance": true,
+      "dpi": 300,
+      "quality": 100,
+      "pdf": {
+        "single_pdf": false,
+        "pdf_name": null
+      }
+    },
+    "invoices": {
+      "description": "Fatture e documenti fiscali (B&N alta qualità)",
+      "output_dir": "processed_invoices",
+      "grayscale": true,
+      "enhance": true,
+      "dpi": 600,
+      "quality": 100,
+      "pdf": {
+        "single_pdf": true,
+        "pdf_name": "fatture.pdf"
+      }
+    },
+    "contracts": {
+      "description": "Contratti e documenti legali",
+      "output_dir": "processed_contracts",
+      "grayscale": false,
+      "enhance": true,
+      "dpi": 600,
+      "quality": 100,
+      "pdf": {
+        "single_pdf": false,
+        "pdf_name": null
+      }
+    }
+  },
+
+  "image_extensions": [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".bmp",
+    ".tiff"
+  ],
+
+  "edge_detection": {
+    "canny_threshold1": 75,
+    "canny_threshold2": 200,
+    "gaussian_blur_ksize": 5,
+    "dilate_kernel_size": 5,
+    "dilate_iterations": 1
+  },
+
+  "enhancement": {
+    "clahe_clip_limit": 3.0,
+    "clahe_tile_grid_size": 8,
+    "adaptive_threshold_block_size": 11,
+    "adaptive_threshold_c": 10,
+    "sharpening_blend_original": 0.7,
+    "sharpening_blend_sharpened": 0.3,
+    "saturation_factor": 1.2
+  },
+
+  "deskew": {
+    "min_angle_threshold": 0.5
+  },
+
+  "a4_dimensions": {
+    "ratio": 1.414,
+    "width_inches": 8.27,
+    "height_inches": 11.69
+  },
+
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(levelname)s - %(message)s"
+  }
+}
