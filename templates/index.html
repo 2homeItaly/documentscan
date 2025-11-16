@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Scanner - Web Interface</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                <h1>Document Scanner</h1>
+            </div>
+            <p class="subtitle">Trasforma le tue foto in scansioni professionali</p>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Step 1: Upload -->
+            <section id="upload-section" class="card">
+                <div class="card-header">
+                    <h2>
+                        <span class="step-number">1</span>
+                        Carica i tuoi documenti
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div id="drop-zone" class="drop-zone">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <p class="drop-text">Trascina qui le tue foto</p>
+                        <p class="drop-subtext">oppure</p>
+                        <label for="file-input" class="btn btn-secondary">
+                            Seleziona File
+                        </label>
+                        <input type="file" id="file-input" multiple accept="image/*" style="display: none;">
+                        <p class="file-info">Formati supportati: JPG, PNG, BMP, TIFF</p>
+                    </div>
+
+                    <div id="file-list" class="file-list" style="display: none;">
+                        <h3>File caricati (<span id="file-count">0</span>)</h3>
+                        <div id="files-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2: Settings -->
+            <section id="settings-section" class="card" style="display: none;">
+                <div class="card-header">
+                    <h2>
+                        <span class="step-number">2</span>
+                        Configura le impostazioni
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <!-- Profili rapidi -->
+                    <div class="form-group">
+                        <label>Profili rapidi</label>
+                        <div class="profile-buttons">
+                            <button class="profile-btn" data-profile="default">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <span>Standard</span>
+                            </button>
+                            <button class="profile-btn" data-profile="high_quality">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                                <span>Alta Qualità</span>
+                            </button>
+                            <button class="profile-btn" data-profile="bw_scanner">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="9" y1="3" x2="9" y2="21"/>
+                                </svg>
+                                <span>Bianco e Nero</span>
+                            </button>
+                            <button class="profile-btn" data-profile="invoices">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                </svg>
+                                <span>Fatture</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Impostazioni dettagliate -->
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label for="grayscale">
+                                Modalità
+                                <span class="tooltip" title="Scegli tra scansione a colori o bianco e nero">ℹ️</span>
+                            </label>
+                            <select id="grayscale" class="form-control">
+                                <option value="false">Colore</option>
+                                <option value="true">Bianco e Nero</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dpi">
+                                Risoluzione (DPI)
+                                <span class="tooltip" title="Maggiore DPI = migliore qualità ma file più grandi">ℹ️</span>
+                            </label>
+                            <select id="dpi" class="form-control">
+                                <option value="150">150 DPI - Bozze</option>
+                                <option value="200">200 DPI - Standard</option>
+                                <option value="300" selected>300 DPI - Professionale</option>
+                                <option value="600">600 DPI - Alta Qualità</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quality">
+                                Qualità JPEG: <span id="quality-value">95</span>%
+                                <span class="tooltip" title="Qualità di compressione JPEG (1-100)">ℹ️</span>
+                            </label>
+                            <input type="range" id="quality" class="form-control" min="1" max="100" value="95">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="single-pdf">
+                                Formato PDF
+                                <span class="tooltip" title="Crea un singolo PDF o un PDF per ogni documento">ℹ️</span>
+                            </label>
+                            <select id="single-pdf" class="form-control">
+                                <option value="true">PDF Unico</option>
+                                <option value="false">PDF Separati</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="pdf-name">
+                                Nome PDF
+                                <span class="tooltip" title="Nome del file PDF di output">ℹ️</span>
+                            </label>
+                            <input type="text" id="pdf-name" class="form-control" value="scanned_document.pdf" placeholder="documento.pdf">
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="process-btn" class="btn btn-primary btn-large">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                            </svg>
+                            Scansiona Documenti
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3: Processing -->
+            <section id="processing-section" class="card" style="display: none;">
+                <div class="card-header">
+                    <h2>
+                        <span class="step-number">3</span>
+                        Processing in corso...
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="processing-animation">
+                        <div class="spinner"></div>
+                        <p id="processing-text">Sto processando i tuoi documenti...</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 4: Results -->
+            <section id="results-section" class="card" style="display: none;">
+                <div class="card-header">
+                    <h2>
+                        <span class="step-number">✓</span>
+                        Scansione completata!
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="success-message">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <p><strong id="processed-count">0</strong> documenti processati con successo!</p>
+                    </div>
+
+                    <div id="output-files" class="output-files"></div>
+
+                    <div class="button-group">
+                        <button id="download-all-btn" class="btn btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Scarica Tutto (ZIP)
+                        </button>
+                        <button id="new-scan-btn" class="btn btn-secondary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="1 4 1 10 7 10"/>
+                                <polyline points="23 20 23 14 17 14"/>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                            </svg>
+                            Nuova Scansione
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>Document Scanner Pipeline - Open Source | Licenza MIT</p>
+            <p>Processing 100% locale - Nessun dato inviato online</p>
+        </footer>
+    </div>
+
+    <!-- Script -->
+    <script src="/static/script.js"></script>
+</body>
+</html>

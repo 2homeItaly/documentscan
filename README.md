@@ -16,6 +16,7 @@ Pipeline automatizzata per il processing di documenti A4 fotografati con smartph
 - ✅ **Modalità colore e bianco/nero**
 - ✅ **DPI personalizzabili** (150, 200, 300, 600)
 - ✅ **CLI completa** per automazione
+- ✅ **🌐 Interfaccia Web moderna** con drag & drop (NUOVO!)
 
 ## 📋 Requisiti
 
@@ -60,7 +61,35 @@ Se vedi l'help del programma, l'installazione è andata a buon fine!
 
 ## 📖 Utilizzo
 
-### Utilizzo base
+### 🌐 Interfaccia Web (Raccomandato per Principianti!)
+
+**La modalità più semplice e user-friendly!**
+
+```bash
+# 1. Avvia il server web
+python app.py
+
+# 2. Apri il browser e vai a:
+http://localhost:5000
+```
+
+**Caratteristiche**:
+- ✨ Drag & Drop delle foto
+- 🎨 Interfaccia moderna e intuitiva
+- 👁️ Preview dei risultati
+- 📦 Download ZIP con tutti i file
+- ⚙️ Profili predefiniti (Standard, Alta Qualità, B&N, Fatture)
+- 📱 Responsive (funziona su mobile e tablet)
+
+**📖 Guida completa**: Vedi [WEB_APP_GUIDE.md](WEB_APP_GUIDE.md)
+
+---
+
+### 💻 Utilizzo CLI (Command Line)
+
+Per utenti avanzati e automazione.
+
+**Utilizzo base:**
 
 ```bash
 python document_scanner.py -i ./input -o ./output
@@ -71,7 +100,7 @@ Questo comando:
 - Salva i risultati in `./output`
 - Crea un singolo PDF con tutte le pagine
 
-### Esempi d'uso
+### Esempi d'uso CLI
 
 #### 1. Conversione in bianco e nero (effetto scanner)
 
