@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Finder - Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .search-box {
+            background: #f7f7f7;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+            margin-bottom: 20px;
+        }
+
+        .info code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #c62828;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .error.active {
+            display: block;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .location-info {
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .location-info h3 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-icon {
+            font-size: 1.5em;
+        }
+
+        .restaurants {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .restaurant-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+
+        .restaurant-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .restaurant-info {
+            color: #666;
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        .restaurant-info strong {
+            color: #333;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #667eea;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍕 Restaurant Finder</h1>
+        <p class="subtitle">Trova i migliori ristoranti vicino a un indirizzo</p>
+
+        <div class="search-box">
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="addressInput"
+                    placeholder="Es: Via Sparano, Bari"
+                    value="Via Sparano, Bari"
+                >
+                <button id="searchBtn" onclick="searchRestaurants()">🔍 Cerca</button>
+            </div>
+
+            <div class="info">
+                <strong>ℹ️ Istruzioni:</strong><br>
+                1. Inserisci un indirizzo<br>
+                2. Clicca "Cerca"<br>
+                3. Attendi i risultati (può richiedere 5-10 secondi)<br><br>
+                <strong>⚠️ IMPORTANTE:</strong> Prima del deploy, modifica l'URL nella funzione <code>searchRestaurants()</code> con il tuo dominio Netlify!
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Ricerca ristoranti in corso...</p>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="results" id="results">
+            <div class="location-info" id="locationInfo"></div>
+
+            <div class="category">
+                <h2><span class="category-icon">🍝</span> Pasta & Cucina Italiana</h2>
+                <div class="restaurants" id="pastaResults"></div>
+            </div>
+
+            <div class="category">
+                <h2><span class="category-icon">🐟</span> Pesce & Seafood</h2>
+                <div class="restaurants" id="fishResults"></div>
+            </div>
+
+            <div class="category">
+                <h2><span class="category-icon">🥩</span> Carne & Grill</h2>
+                <div class="restaurants" id="meatResults"></div>
+            </div>
+
+            <div class="category">
+                <h2><span class="category-icon">🍕</span> Pizzerie</h2>
+                <div class="restaurants" id="pizzaResults"></div>
+            </div>
+
+            <div class="category">
+                <h2><span class="category-icon">🌮</span> Altri Tipi</h2>
+                <div class="restaurants" id="otherResults"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ MODIFICA QUESTO URL CON IL TUO DOMINIO NETLIFY DOPO IL DEPLOY!
+        // Esempi:
+        // - Local: http://localhost:8888/.netlify/functions/places
+        // - Production: https://your-site-name.netlify.app/.netlify/functions/places
+        // - Custom domain: https://tuosito.com/.netlify/functions/places
+        const API_URL = 'http://localhost:8888/.netlify/functions/places';
+
+        async function searchRestaurants() {
+            const address = document.getElementById('addressInput').value.trim();
+
+            if (!address) {
+                showError('Per favore inserisci un indirizzo');
+                return;
+            }
+
+            // Reset UI
+            hideError();
+            hideResults();
+            showLoading();
+            disableButton();
+
+            try {
+                const url = `${API_URL}?address=${encodeURIComponent(address)}`;
+                console.log('Fetching:', url);
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Errore nella richiesta');
+                }
+
+                console.log('Results:', data);
+                displayResults(data);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError(`Errore: ${error.message}`);
+            } finally {
+                hideLoading();
+                enableButton();
+            }
+        }
+
+        function displayResults(data) {
+            // Location info
+            document.getElementById('locationInfo').innerHTML = `
+                <h3>📍 Posizione</h3>
+                <p><strong>Indirizzo cercato:</strong> ${data.address}</p>
+                <p><strong>Indirizzo trovato:</strong> ${data.geocoded_address || 'N/A'}</p>
+                <p><strong>Coordinate:</strong> ${data.center.lat.toFixed(6)}, ${data.center.lon.toFixed(6)}</p>
+                <p><strong>Raggio di ricerca:</strong> ${data.search_radius_meters}m</p>
+                <p><strong>Totale POI trovati:</strong> ${data.total_found}</p>
+            `;
+
+            // Display each category
+            displayCategory('pastaResults', data.pasta);
+            displayCategory('fishResults', data.fish);
+            displayCategory('meatResults', data.meat);
+            displayCategory('pizzaResults', data.pizza);
+            displayCategory('otherResults', data.other);
+
+            showResults();
+        }
+
+        function displayCategory(elementId, restaurants) {
+            const container = document.getElementById(elementId);
+
+            if (!restaurants || restaurants.length === 0) {
+                container.innerHTML = '<div class="no-results">Nessun ristorante trovato in questa categoria</div>';
+                return;
+            }
+
+            container.innerHTML = restaurants.map(r => `
+                <div class="restaurant-card">
+                    <div class="restaurant-name">${r.name}</div>
+                    <div class="restaurant-info">
+                        <strong>Tipo:</strong>
+                        <span class="badge">${r.amenity}</span>
+                    </div>
+                    <div class="restaurant-info">
+                        <strong>Cucina:</strong> ${r.cuisine}
+                    </div>
+                    <div class="restaurant-info">
+                        <strong>Indirizzo:</strong> ${r.address}
+                    </div>
+                    <div class="restaurant-info">
+                        <strong>Coordinate:</strong> ${r.lat.toFixed(6)}, ${r.lon.toFixed(6)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function showLoading() {
+            document.getElementById('loading').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('active');
+        }
+
+        function showResults() {
+            document.getElementById('results').classList.add('active');
+        }
+
+        function hideResults() {
+            document.getElementById('results').classList.remove('active');
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('error');
+            errorEl.textContent = message;
+            errorEl.classList.add('active');
+        }
+
+        function hideError() {
+            document.getElementById('error').classList.remove('active');
+        }
+
+        function disableButton() {
+            document.getElementById('searchBtn').disabled = true;
+        }
+
+        function enableButton() {
+            document.getElementById('searchBtn').disabled = false;
+        }
+
+        // Allow Enter key to search
+        document.getElementById('addressInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchRestaurants();
+            }
+        });
+    </script>
+</body>
+</html>

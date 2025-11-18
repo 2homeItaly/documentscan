@@ -1,0 +1,32 @@
+# Netlify Configuration File
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Build command (if you have a build step)
+  command = "echo 'No build step required'"
+  # Publish directory (where your static files are)
+  publish = "."
+
+[functions]
+  # Directory containing serverless functions
+  directory = "netlify/functions"
+  # Use esbuild for bundling (faster and modern)
+  node_bundler = "esbuild"
+
+# Redirect rules for cleaner URLs (optional)
+[[redirects]]
+  from = "/api/places"
+  to = "/.netlify/functions/places"
+  status = 200
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Environment variables (can also be set in Netlify dashboard)
+# [build.environment]
+#   NODE_VERSION = "18"
